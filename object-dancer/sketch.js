@@ -37,19 +37,12 @@ class HHWDancer {
 
     this.eyeSwapped = false;
 
-    this.spiralDir = 1;
-    this.lastX = this.x;
+    this.spiralDir = 1; // manually controlled
   }
 
   update() {
     this.step += 0.02;
-    let newX = this.baseX + sin(this.step) * this.moveRadius;
-    let deltaX = newX - this.x;
-    this.lastX = this.x;
-    this.x = newX;
-
-    let direction = deltaX > 0 ? 1 : -1;
-    this.spiralDir = lerp(this.spiralDir, direction, 0.05);
+    this.x = this.baseX + sin(this.step) * this.moveRadius;
 
     this.vy += this.gravity;
     this.baseY += this.vy;
@@ -74,6 +67,10 @@ class HHWDancer {
   trigger(k) {
     if (k === ' ') {
       this.jump();
+    } else if (k === 'A' || k === 'a') {
+      this.spiralDir = -1;
+    } else if (k === 'D' || k === 'd') {
+      this.spiralDir = 1;
     }
   }
 
