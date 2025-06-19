@@ -21,8 +21,7 @@ class HHWDancer {
     this.baseY = y;
     this.x = x;
     this.y = y;
-    this.angle = 0;
-    this.rotationSpeed = 0.02;
+
     this.step = 0;
     this.moveRadius = 80;
     this.armLength = 50;
@@ -37,12 +36,16 @@ class HHWDancer {
 
     this.eyeSwapped = false;
 
-    this.spiralDir = 1; // manually controlled
+    this.spiralDir = 1;
+    this.angle = 0;
+    this.rotationSpeed = 0;
   }
 
   update() {
     this.step += 0.02;
     this.x = this.baseX + sin(this.step) * this.moveRadius;
+
+    this.angle += this.rotationSpeed;
 
     this.vy += this.gravity;
     this.baseY += this.vy;
@@ -69,8 +72,10 @@ class HHWDancer {
       this.jump();
     } else if (k === 'A' || k === 'a') {
       this.spiralDir = -1;
+      this.rotationSpeed = -0.02;
     } else if (k === 'D' || k === 'd') {
       this.spiralDir = 1;
+      this.rotationSpeed = 0.02;
     }
   }
 
@@ -79,6 +84,7 @@ class HHWDancer {
 
     push();
     translate(this.x, this.baseY);
+    rotate(this.angle);
 
     // head
     push();
@@ -95,13 +101,10 @@ class HHWDancer {
     }
     pop();
 
-    // body
-    rotate(this.angle);
+    // spiral
     stroke(255);
     strokeWeight(1.5);
     noFill();
-
-    // spiral
     for (let a = 0; a < 2*PI; a += PI / 3) {
       beginShape();
       for (let r = 5; r < 60; r += 2) {
@@ -113,12 +116,11 @@ class HHWDancer {
       endShape();
     }
 
-    // body circle
+    // body
     stroke(255, 100);
     fill(30);
     ellipse(0, 0, 80, 80);
 
-    // rings
     noFill();
     stroke(255, 40);
     for (let i = 1; i <= 2; i++) {
@@ -164,4 +166,3 @@ class HHWDancer {
     }
   }
 }
-
