@@ -6,7 +6,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(0, 20); // restore trailing glow
   dancer.update();
   dancer.display();
 
@@ -17,16 +17,15 @@ function draw() {
 
 class HHWDancer {
   constructor(x, y) {
-    this.baseX = x;
-    this.baseY = y;
     this.x = x;
-    this.y = y;
+    this.baseY = y;
+    this.angle = 0;
+    this.rotationSpeed = 0;
 
-    this.step = 0;
-    this.moveRadius = 80;
     this.armLength = 50;
     this.glowStickLength = 80;
 
+    this.step = 0;
     this.vy = 0;
     this.gravity = 0.6;
     this.jumpStrength = -12;
@@ -35,16 +34,11 @@ class HHWDancer {
     this.maxJumps = 2;
 
     this.eyeSwapped = false;
-
     this.spiralDir = 1;
-    this.angle = 0;
-    this.rotationSpeed = 0;
   }
 
   update() {
     this.step += 0.02;
-    this.x = this.baseX + sin(this.step) * this.moveRadius;
-
     this.angle += this.rotationSpeed;
 
     this.vy += this.gravity;
