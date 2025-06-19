@@ -3,29 +3,15 @@ let dancer;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   dancer = new HHWDancer(width / 2, height / 2);
-  background(0);
 }
 
 function draw() {
-  background(0, 20);
-  drawFloor(); // draw grid floor first
+  background(0);
   dancer.update();
   dancer.display();
-}
 
-function keyPressed() {
-  if (key === ' ') dancer.jump();
-}
-
-function drawFloor() {
-  stroke(180);
-  strokeWeight(1);
-  let spacing = 40;
-  for (let y = height / 2 + 80; y < height; y += spacing) {
-    line(0, y, width, y);
-  }
-  for (let x = 0; x < width; x += spacing) {
-    line(x, height / 2 + 80, x, height);
+  if (keyIsPressed) {
+    dancer.trigger(key);
   }
 }
 
@@ -42,7 +28,6 @@ class HHWDancer {
     this.armLength = 50;
     this.glowStickLength = 80;
 
-    // Jump
     this.vy = 0;
     this.gravity = 0.6;
     this.jumpStrength = -12;
@@ -50,10 +35,8 @@ class HHWDancer {
     this.jumpCount = 0;
     this.maxJumps = 2;
 
-    // Eyes
     this.eyeSwapped = false;
 
-    // Movement-based spiral direction
     this.spiralDir = 1;
     this.lastX = this.x;
   }
@@ -65,11 +48,9 @@ class HHWDancer {
     this.lastX = this.x;
     this.x = newX;
 
-    // auto spiral direction
     let direction = deltaX > 0 ? 1 : -1;
     this.spiralDir = lerp(this.spiralDir, direction, 0.05);
 
-    // gravity
     this.vy += this.gravity;
     this.baseY += this.vy;
 
@@ -90,7 +71,15 @@ class HHWDancer {
     }
   }
 
+  trigger(k) {
+    if (k === ' ') {
+      this.jump();
+    }
+  }
+
   display() {
+    this.drawFloor();
+
     push();
     translate(this.x, this.baseY);
 
@@ -139,7 +128,7 @@ class HHWDancer {
       ellipse(0, 0, i * 40 + sin(this.step * i) * 10);
     }
 
-    // arms and glowsticks
+    // arms + glowsticks
     for (let side of [-1, 1]) {
       let armAngle = side * PI / 4;
       let armX = this.armLength * cos(armAngle);
@@ -165,4 +154,17 @@ class HHWDancer {
 
     pop();
   }
+
+  drawFloor() {
+    stroke(180);
+    strokeWeight(1);
+    let spacing = 40;
+    for (let y = height / 2 + 80; y < height; y += spacing) {
+      line(0, y, width, y);
+    }
+    for (let x = 0; x < width; x += spacing) {
+      line(x, height / 2 + 80, x, height);
+    }
+  }
 }
+
