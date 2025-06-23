@@ -6,26 +6,26 @@ function setup() {
 }
 
 function draw() {
-  background(0, 20); // restore trailing glow
+  background(0, 20);
   dancer.update();
+  dancer.checkKeys();
   dancer.display();
-
-  if (keyIsPressed) {
-    dancer.trigger(key);
-  }
 }
 
 class HHWDancer {
   constructor(x, y) {
     this.x = x;
     this.baseY = y;
+
     this.angle = 0;
-    this.rotationSpeed = 0;
+    this.rotationSpeed = 0.02;
+    this.spiralDir = 1;
 
     this.armLength = 50;
     this.glowStickLength = 80;
 
     this.step = 0;
+
     this.vy = 0;
     this.gravity = 0.6;
     this.jumpStrength = -12;
@@ -34,11 +34,37 @@ class HHWDancer {
     this.maxJumps = 2;
 
     this.eyeSwapped = false;
-    this.spiralDir = 1;
+
+    this.pauseTimer = 0; 
+  }
+
+  checkKeys() {
+    if (keyIsPressed) {
+      if (key === ' ') {
+        this.jump();
+      } else if (key === 'a' || key === 'A') {
+        if (this.pauseTimer <= 0) {
+          this.prevSpeed = this.rotationSpeed;
+          this.rotationSpeed = 0;
+          this.pauseTimer = 60; // ≈1秒 at 60fps
+        }
+      } else if (key === 'd' || key === 'D') {
+        this.spiralDir *= -1;
+        this.rotationSpeed = 0.02 * this.spiralDir;
+      }
+    }
   }
 
   update() {
     this.step += 0.02;
+
+    if (this.pauseTimer > 0) {
+      this.pauseTimer--;
+      if (this.pauseTimer === 0) {
+        this.rotationSpeed = this.prevSpeed || 0.02 * this.spiralDir;
+      }
+    }
+
     this.angle += this.rotationSpeed;
 
     this.vy += this.gravity;
@@ -58,18 +84,6 @@ class HHWDancer {
       this.isJumping = true;
       this.jumpCount++;
       this.eyeSwapped = !this.eyeSwapped;
-    }
-  }
-
-  trigger(k) {
-    if (k === ' ') {
-      this.jump();
-    } else if (k === 'A' || k === 'a') {
-      this.spiralDir = -1;
-      this.rotationSpeed = -0.02;
-    } else if (k === 'D' || k === 'd') {
-      this.spiralDir = 1;
-      this.rotationSpeed = 0.02;
     }
   }
 
@@ -99,7 +113,7 @@ class HHWDancer {
     stroke(255);
     strokeWeight(1.5);
     noFill();
-    for (let a = 0; a < 2*PI; a += PI / 3) {
+    for (let a = 0; a < TWO_PI; a += PI / 3) {
       beginShape();
       for (let r = 5; r < 60; r += 2) {
         let offset = this.spiralDir * (r * 0.05 + this.step * 2);
