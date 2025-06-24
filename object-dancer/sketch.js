@@ -1,17 +1,66 @@
 let dancer;
+let fireflies = [];
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent("p5-canvas-container");
+  colorMode(HSB, 360, 100, 100);
   dancer = new HHWDancer(width / 2, height / 2);
 }
 
 function draw() {
-  background(0, 20);
+  background(0, 0, 0, 0.2);
+
+  //update
+  for (let i = fireflies.length - 1; i >= 0; i--) {
+    fireflies[i].update();
+    fireflies[i].display();
+    if (fireflies[i].onScreen() == false) {
+      fireflies.splice(i, 1);
+    }
+  }
+
   dancer.update();
   dancer.checkKeys();
   dancer.display();
+
+  drawFloor();
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+//Firefly
+class FireflyParticle {
+  constructor(x = random(width), y = random(height)) {
+    this.x = x;
+    this.y = y;
+    this.baseSize = random(2, 8);
+    this.speedX = random(-0.5, 0.5);
+    this.speedY = random(-0.3, 0.3);
+    this.hue = random(360);
+    this.flickerOffset = random(2 * PI);
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.hue = (this.hue + 0.5) % 360;
+  }
+
+  display() {
+    noStroke();
+    fill(this.hue, 80, 100);
+    ellipse(this.x, this.y, this.baseSize);
+  }
+
+  onScreen() {
+    return this.x >= 0 && this.x <= width && this.y >= 0 && this.y <= height;
+  }
+}
+
+//Dancer
 class HHWDancer {
   constructor(x, y) {
     this.x = x;
@@ -35,7 +84,7 @@ class HHWDancer {
 
     this.eyeSwapped = false;
 
-    this.pauseTimer = 0; 
+    this.pauseTimer = 0;
   }
 
   checkKeys() {
@@ -46,11 +95,13 @@ class HHWDancer {
         if (this.pauseTimer <= 0) {
           this.prevSpeed = this.rotationSpeed;
           this.rotationSpeed = 0;
-          this.pauseTimer = 60; // ≈1秒 at 60fps
+          this.pauseTimer = 60;
         }
       } else if (key === 'd' || key === 'D') {
         this.spiralDir *= -1;
         this.rotationSpeed = 0.02 * this.spiralDir;
+      } else if (key === 's' || key === 'S') {
+        fireflies.push(new FireflyParticle());
       }
     }
   }
@@ -88,8 +139,6 @@ class HHWDancer {
   }
 
   display() {
-    this.drawFloor();
-
     push();
     translate(this.x, this.baseY);
     rotate(this.angle);
@@ -113,7 +162,7 @@ class HHWDancer {
     stroke(255);
     strokeWeight(1.5);
     noFill();
-    for (let a = 0; a < TWO_PI; a += PI / 3) {
+    for (let a = 0; a < 2 * PI; a += PI / 3) {
       beginShape();
       for (let r = 5; r < 60; r += 2) {
         let offset = this.spiralDir * (r * 0.05 + this.step * 2);
@@ -161,16 +210,17 @@ class HHWDancer {
 
     pop();
   }
+}
 
-  drawFloor() {
-    stroke(180);
-    strokeWeight(1);
-    let spacing = 40;
-    for (let y = height / 2 + 80; y < height; y += spacing) {
-      line(0, y, width, y);
-    }
-    for (let x = 0; x < width; x += spacing) {
-      line(x, height / 2 + 80, x, height);
-    }
+//Floor
+function drawFloor() {
+  stroke(0, 0, 60);
+  strokeWeight(1);
+  let spacing = 40;
+  for (let y = height / 2 + 80; y < height; y += spacing) {
+    line(0, y, width, y);
+  }
+  for (let x = 0; x < width; x += spacing) {
+    line(x, height / 2 + 80, x, height);
   }
 }
