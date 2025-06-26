@@ -214,16 +214,16 @@ class HHWDancer {
 function drawFloor() {
   let horizonY = height / 2 + 80;
   let vanishingPointX = width / 2;
-  let vanishingPointY = horizonY - 200; 
-
+  let vanishingPointY = horizonY - 300; 
   stroke(0, 0, 60);
-  strokeWeight(1);
-  for (let i = 0; i < 25; i++) {
-    let y = horizonY + pow(i, 1.3);
+  for (let i = 0; i < 30; i++) {
+    let y = horizonY + pow(i, 1.4);
+    strokeWeight(map(i, 0, 30, 1.5, 0.3));
     line(0, y, width, y);
   }
-  let spacing = 40;
-  for (let x = 0; x <= width; x += spacing) {
+  let numLines = 30;
+  for (let i = 0; i <= numLines; i++) {
+    let x = map(i, 0, numLines, 0, width);
     line(x, height, vanishingPointX, vanishingPointY);
   }
 }
