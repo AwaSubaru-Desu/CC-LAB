@@ -11,6 +11,8 @@ function setup() {
 function draw() {
   background(0, 0, 0, 0.2);
 
+  drawFloor(); 
+
   for (let i = fireflies.length - 1; i >= 0; i--) {
     fireflies[i].update();
     fireflies[i].display();
@@ -21,7 +23,6 @@ function draw() {
 
   dancer.update();
   dancer.display();
-  drawFloor();
 }
 
 function windowResized() {
@@ -216,14 +217,12 @@ class HHWDancer {
 
 function drawFloor() {
   push();
-
   let perspY = height * 0.3;
   let tileW = width / 30;
   for (let x = -150; x <= width + 150; x += tileW) {
     stroke(45);
     line(width / 2, perspY, x, height);
   }
-
   let dy = 5;
   let y = height * 0.6;
   while (y <= height) {
@@ -231,3 +230,5 @@ function drawFloor() {
     dy *= 1.05;
     y += dy;
   }
+  pop();
+}
