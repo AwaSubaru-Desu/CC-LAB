@@ -219,7 +219,6 @@ function drawFloor() {
 
   let perspY = height * 0.3;
   let tileW = width / 30;
-
   for (let x = -150; x <= width + 150; x += tileW) {
     stroke(45);
     line(width / 2, perspY, x, height);
