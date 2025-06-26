@@ -11,7 +11,7 @@ function setup() {
 function draw() {
   background(0, 0, 0, 0.2);
 
-  // update fireflies
+  // fireflies
   for (let i = fireflies.length - 1; i >= 0; i--) {
     fireflies[i].update();
     fireflies[i].display();
@@ -22,7 +22,6 @@ function draw() {
 
   dancer.update();
   dancer.display();
-
   drawFloor();
 }
 
@@ -31,21 +30,30 @@ function windowResized() {
 }
 
 function keyPressed() {
-  if (key === ' ') {
-    dancer.jump();
-  } else if (key === 'a' || key === 'A') {
-    dancer.toggleArmSwing();
-  } else if (key === 'd' || key === 'D') {
+  if (key === 'a' || key === 'A') {
+    dancer.armAngleSpeed = 0.02;
+  }
+  if (key === 'd' || key === 'D') {
     dancer.reverseSpin();
-  } else if (key === 's' || key === 'S') {
+  }
+  if (key === 's' || key === 'S') {
     let num = int(random(1, 10));
     for (let i = 0; i < num; i++) {
       fireflies.push(new FireflyParticle());
     }
   }
+  if (key === ' ') {
+    dancer.jump();
+  }
 }
 
-// Firefly Particle
+function keyReleased() {
+  if (key === 'a' || key === 'A') {
+    dancer.armAngleSpeed = 0;
+  }
+}
+
+// Firefly
 class FireflyParticle {
   constructor(x = random(width), y = random(height)) {
     this.x = x;
@@ -78,12 +86,16 @@ class HHWDancer {
   constructor(x, y) {
     this.x = x;
     this.baseY = y;
+
     this.angle = 0;
     this.rotationSpeed = 0.02;
     this.spiralDir = 1;
+
     this.armLength = 50;
     this.glowStickLength = 80;
     this.armSwingScale = 1;
+    this.armAngleBase = PI / 4;
+    this.armAngleSpeed = 0;
 
     this.step = 0;
     this.vy = 0;
@@ -98,6 +110,7 @@ class HHWDancer {
   update() {
     this.step += 0.02;
     this.angle += this.rotationSpeed;
+    this.armAngleBase += this.armAngleSpeed;
 
     this.vy += this.gravity;
     this.baseY += this.vy;
@@ -117,10 +130,6 @@ class HHWDancer {
       this.jumpCount++;
       this.eyeSwapped = !this.eyeSwapped;
     }
-  }
-
-  toggleArmSwing() {
-    this.armSwingScale = this.armSwingScale === 1 ? 1.8 : 1;
   }
 
   reverseSpin() {
@@ -176,7 +185,7 @@ class HHWDancer {
 
     // arms + glowsticks
     for (let side of [-1, 1]) {
-      let armAngle = side * PI / 4;
+      let armAngle = side * this.armAngleBase;
       let armX = this.armLength * cos(armAngle);
       let armY = this.armLength * sin(armAngle);
 
