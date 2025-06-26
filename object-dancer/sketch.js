@@ -211,19 +211,19 @@ class HHWDancer {
   }
 }
 
-// Floor with perspective
 function drawFloor() {
-  stroke(0, 0, 40);
-  let spacing = 30;
-  let baseY = height / 2 + 80;
-  for (let i = 0; i < 20; i++) {
-    let y = baseY + pow(i, 1.5);
-    strokeWeight(map(i, 0, 20, 1.2, 0.2));
+  let horizonY = height / 2 + 80;
+  let vanishingPointX = width / 2;
+  let vanishingPointY = horizonY - 200; 
+
+  stroke(0, 0, 60);
+  strokeWeight(1);
+  for (let i = 0; i < 25; i++) {
+    let y = horizonY + pow(i, 1.3);
     line(0, y, width, y);
   }
-  for (let x = -width / 2; x < width * 1.5; x += spacing) {
-    let offset = map(x, 0, width, -100, 100);
-    line(x, baseY, width / 2 + offset, height);
+  let spacing = 40;
+  for (let x = 0; x <= width; x += spacing) {
+    line(x, height, vanishingPointX, vanishingPointY);
   }
 }
-
