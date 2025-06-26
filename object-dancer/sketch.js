@@ -11,7 +11,6 @@ function setup() {
 function draw() {
   background(0, 0, 0, 0.2);
 
-  // fireflies
   for (let i = fireflies.length - 1; i >= 0; i--) {
     fireflies[i].update();
     fireflies[i].display();
@@ -98,13 +97,17 @@ class HHWDancer {
     this.armAngleSpeed = 0;
 
     this.step = 0;
+
     this.vy = 0;
     this.gravity = 0.6;
     this.jumpStrength = -12;
     this.isJumping = false;
     this.jumpCount = 0;
     this.maxJumps = 2;
+
     this.eyeSwapped = false;
+
+    this.pauseTimer = 0;
   }
 
   update() {
@@ -212,18 +215,42 @@ class HHWDancer {
 }
 
 function drawFloor() {
-  let horizonY = height / 2 + 80;
-  let vanishingPointX = width / 2;
-  let vanishingPointY = horizonY - 200; 
-  stroke(0, 0, 60);
-  for (let i = 0; i < 30; i++) {
-    let y = horizonY + pow(i, 1.4);
-    strokeWeight(map(i, 0, 30, 1.5, 0.3));
+  push();
+
+  let perspY = height * 0.3;
+  let tileW = width / 30;
+
+  for (let x = -150; x <= width + 150; x += tileW) {
+    stroke(45);
+    line(width / 2, perspY, x, height);
+  }
+  let dy = 5;
+  let y = height * 0.6;
+  while (y <= height) {
     line(0, y, width, y);
+    dy *= 1.05;
+    y += dy;
   }
-  let numLines = 30;
-  for (let i = 0; i <= numLines; i++) {
-    let x = map(i, 0, numLines, 0, width);
-    line(x, height, vanishingPointX, vanishingPointY);
-  }
+
+  fill(0);
+  noStroke();
+
+  beginShape();
+  vertex(-151, height);
+  vertex(width / 2, perspY);
+  vertex(-151, perspY);
+  endShape();
+
+  beginShape();
+  vertex(width + 151, height);
+  vertex(width / 2 + 1, perspY);
+  vertex(width + 151, perspY);
+  endShape();
+
+  rect(0, 0, width, height * 0.6);
+
+  fill(180);
+  textSize(10);
+
+  pop();
 }
