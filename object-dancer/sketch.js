@@ -11,17 +11,16 @@ function setup() {
 function draw() {
   background(0, 0, 0, 0.2);
 
-  //update
+  // update fireflies
   for (let i = fireflies.length - 1; i >= 0; i--) {
     fireflies[i].update();
     fireflies[i].display();
-    if (fireflies[i].onScreen() == false) {
+    if (!fireflies[i].onScreen()) {
       fireflies.splice(i, 1);
     }
   }
 
   dancer.update();
-  dancer.checkKeys();
   dancer.display();
 
   drawFloor();
@@ -31,7 +30,22 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-//Firefly
+function keyPressed() {
+  if (key === ' ') {
+    dancer.jump();
+  } else if (key === 'a' || key === 'A') {
+    dancer.toggleArmSwing();
+  } else if (key === 'd' || key === 'D') {
+    dancer.reverseSpin();
+  } else if (key === 's' || key === 'S') {
+    let num = int(random(1, 10));
+    for (let i = 0; i < num; i++) {
+      fireflies.push(new FireflyParticle());
+    }
+  }
+}
+
+// Firefly Particle
 class FireflyParticle {
   constructor(x = random(width), y = random(height)) {
     this.x = x;
@@ -40,7 +54,6 @@ class FireflyParticle {
     this.speedX = random(-0.5, 0.5);
     this.speedY = random(-0.3, 0.3);
     this.hue = random(360);
-    this.flickerOffset = random(2 * PI);
   }
 
   update() {
@@ -60,62 +73,30 @@ class FireflyParticle {
   }
 }
 
-//Dancer
+// Dancer
 class HHWDancer {
   constructor(x, y) {
     this.x = x;
     this.baseY = y;
-
     this.angle = 0;
     this.rotationSpeed = 0.02;
     this.spiralDir = 1;
-
     this.armLength = 50;
     this.glowStickLength = 80;
+    this.armSwingScale = 1;
 
     this.step = 0;
-
     this.vy = 0;
     this.gravity = 0.6;
     this.jumpStrength = -12;
     this.isJumping = false;
     this.jumpCount = 0;
     this.maxJumps = 2;
-
     this.eyeSwapped = false;
-
-    this.pauseTimer = 0;
-  }
-
-  checkKeys() {
-    if (keyIsPressed) {
-      if (key === ' ') {
-        this.jump();
-      } else if (key === 'a' || key === 'A') {
-        if (this.pauseTimer <= 0) {
-          this.prevSpeed = this.rotationSpeed;
-          this.rotationSpeed = 0;
-          this.pauseTimer = 60;
-        }
-      } else if (key === 'd' || key === 'D') {
-        this.spiralDir *= -1;
-        this.rotationSpeed = 0.02 * this.spiralDir;
-      } else if (key === 's' || key === 'S') {
-        fireflies.push(new FireflyParticle());
-      }
-    }
   }
 
   update() {
     this.step += 0.02;
-
-    if (this.pauseTimer > 0) {
-      this.pauseTimer--;
-      if (this.pauseTimer === 0) {
-        this.rotationSpeed = this.prevSpeed || 0.02 * this.spiralDir;
-      }
-    }
-
     this.angle += this.rotationSpeed;
 
     this.vy += this.gravity;
@@ -136,6 +117,15 @@ class HHWDancer {
       this.jumpCount++;
       this.eyeSwapped = !this.eyeSwapped;
     }
+  }
+
+  toggleArmSwing() {
+    this.armSwingScale = this.armSwingScale === 1 ? 1.8 : 1;
+  }
+
+  reverseSpin() {
+    this.spiralDir *= -1;
+    this.rotationSpeed = 0.02 * this.spiralDir;
   }
 
   display() {
@@ -194,17 +184,17 @@ class HHWDancer {
       strokeWeight(4);
       line(0, 0, armX, armY);
 
-      let swing = sin(this.step * 5) * PI / 6;
+      let swing = sin(this.step * 5) * PI / 6 * this.armSwingScale;
       let glowAngle = armAngle + swing;
       let glowX = armX + this.glowStickLength * cos(glowAngle);
       let glowY = armY + this.glowStickLength * sin(glowAngle);
 
-      stroke(0, 255, 255, 200);
+      stroke(180, 100, 100, 200);
       strokeWeight(6);
       line(armX, armY, glowX, glowY);
 
       noStroke();
-      fill(0, 255, 255, 150);
+      fill(180, 100, 100, 150);
       ellipse(glowX, glowY, 12, 12);
     }
 
@@ -212,15 +202,19 @@ class HHWDancer {
   }
 }
 
-//Floor
+// Floor with perspective
 function drawFloor() {
-  stroke(0, 0, 60);
-  strokeWeight(1);
-  let spacing = 40;
-  for (let y = height / 2 + 80; y < height; y += spacing) {
+  stroke(0, 0, 40);
+  let spacing = 30;
+  let baseY = height / 2 + 80;
+  for (let i = 0; i < 20; i++) {
+    let y = baseY + pow(i, 1.5);
+    strokeWeight(map(i, 0, 20, 1.2, 0.2));
     line(0, y, width, y);
   }
-  for (let x = 0; x < width; x += spacing) {
-    line(x, height / 2 + 80, x, height);
+  for (let x = -width / 2; x < width * 1.5; x += spacing) {
+    let offset = map(x, 0, width, -100, 100);
+    line(x, baseY, width / 2 + offset, height);
   }
 }
+
