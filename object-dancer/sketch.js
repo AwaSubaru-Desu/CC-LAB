@@ -9,9 +9,11 @@ function setup() {
 }
 
 function draw() {
-  background(0, 0, 0, 0.2);
 
-  drawFloor(); 
+  noStroke();
+  fill(0, 0, 0, 20);
+  rect(0, 0, width, height);
+  drawFloor();
 
   for (let i = fireflies.length - 1; i >= 0; i--) {
     fireflies[i].update();
