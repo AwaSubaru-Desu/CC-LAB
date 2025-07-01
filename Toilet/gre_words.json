@@ -1,0 +1,222 @@
+[
+  {
+    "word": "abate",
+    "definition": "to reduce in intensity",
+    "correct": "to reduce in intensity",
+    "choices": [
+      "to reduce in intensity",
+      "to exaggerate",
+      "to delay",
+      "to strengthen"
+    ]
+  },
+  {
+    "word": "bolster",
+    "definition": "to support or strengthen",
+    "correct": "to support or strengthen",
+    "choices": [
+      "to support or strengthen",
+      "to weaken",
+      "to question",
+      "to ignore"
+    ]
+  },
+  {
+    "word": "cacophony",
+    "definition": "harsh, discordant sound",
+    "correct": "harsh, discordant sound",
+    "choices": [
+      "harsh, discordant sound",
+      "melodic harmony",
+      "soft whisper",
+      "rhythmic flow"
+    ]
+  },
+  {
+    "word": "enervate",
+    "definition": "to weaken or drain energy",
+    "correct": "to weaken or drain energy",
+    "choices": [
+      "to energize",
+      "to awaken",
+      "to weaken or drain energy",
+      "to motivate"
+    ]
+  },
+  {
+    "word": "laconic",
+    "definition": "using few words",
+    "correct": "using few words",
+    "choices": [
+      "talkative",
+      "using few words",
+      "emotional",
+      "long-winded"
+    ]
+  },
+  {
+    "word": "equivocal",
+    "definition": "ambiguous, open to interpretation",
+    "correct": "ambiguous, open to interpretation",
+    "choices": [
+      "clear and direct",
+      "ambiguous, open to interpretation",
+      "logical",
+      "well-argued"
+    ]
+  },
+  {
+    "word": "precipitate",
+    "definition": "to cause suddenly",
+    "correct": "to cause suddenly",
+    "choices": [
+      "to delay",
+      "to plan thoroughly",
+      "to cause suddenly",
+      "to understand slowly"
+    ]
+  },
+  {
+    "word": "erudite",
+    "definition": "having deep scholarly knowledge",
+    "correct": "having deep scholarly knowledge",
+    "choices": [
+      "ignorant",
+      "having deep scholarly knowledge",
+      "naive",
+      "unconcerned"
+    ]
+  },
+  {
+    "word": "prodigal",
+    "definition": "wastefully extravagant",
+    "correct": "wastefully extravagant",
+    "choices": [
+      "economical",
+      "wastefully extravagant",
+      "greedy",
+      "stingy"
+    ]
+  },
+  {
+    "word": "fervid",
+    "definition": "intensely emotional or passionate",
+    "correct": "intensely emotional or passionate",
+    "choices": [
+      "cold and logical",
+      "intensely emotional or passionate",
+      "passively accepting",
+      "doubtful"
+    ]
+  },
+  {
+    "word": "audacious",
+    "definition": "fearlessly bold",
+    "correct": "fearlessly bold",
+    "choices": [
+      "cowardly",
+      "fearlessly bold",
+      "indifferent",
+      "careless"
+    ]
+  },
+  {
+    "word": "obdurate",
+    "definition": "stubbornly refusing to change",
+    "correct": "stubbornly refusing to change",
+    "choices": [
+      "flexible",
+      "apologetic",
+      "stubbornly refusing to change",
+      "easily influenced"
+    ]
+  },
+  {
+    "word": "garrulous",
+    "definition": "excessively talkative",
+    "correct": "excessively talkative",
+    "choices": [
+      "quiet",
+      "excessively talkative",
+      "angry",
+      "focused"
+    ]
+  },
+  {
+    "word": "misanthrope",
+    "definition": "a person who dislikes others",
+    "correct": "a person who dislikes others",
+    "choices": [
+      "a people lover",
+      "a person who dislikes others",
+      "a leader",
+      "a coward"
+    ]
+  },
+  {
+    "word": "venerate",
+    "definition": "to respect deeply",
+    "correct": "to respect deeply",
+    "choices": [
+      "to ignore",
+      "to mock",
+      "to respect deeply",
+      "to question"
+    ]
+  },
+  {
+    "word": "loquacious",
+    "definition": "very talkative",
+    "correct": "very talkative",
+    "choices": [
+      "silent",
+      "confused",
+      "very talkative",
+      "angry"
+    ]
+  },
+  {
+    "word": "ephemeral",
+    "definition": "lasting a very short time",
+    "correct": "lasting a very short time",
+    "choices": [
+      "eternal",
+      "brief",
+      "lasting a very short time",
+      "slow"
+    ]
+  },
+  {
+    "word": "laconic",
+    "definition": "using very few words",
+    "correct": "using very few words",
+    "choices": [
+      "verbose",
+      "confusing",
+      "using very few words",
+      "abstract"
+    ]
+  },
+  {
+    "word": "vacillate",
+    "definition": "to waver between choices",
+    "correct": "to waver between choices",
+    "choices": [
+      "to act decisively",
+      "to waver between choices",
+      "to scream",
+      "to hesitate before sleep"
+    ]
+  },
+  {
+    "word": "engender",
+    "definition": "to produce or bring about",
+    "correct": "to produce or bring about",
+    "choices": [
+      "to destroy",
+      "to avoid",
+      "to produce or bring about",
+      "to delay"
+    ]
+  }
+]
